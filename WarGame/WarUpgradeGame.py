@@ -1,4 +1,5 @@
 import random
+from functions import test
 
 """Constant variables"""
 SUITS = ['Spades', 'Clubs', 'Diamonds', 'Hearts']
