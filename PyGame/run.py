@@ -1,6 +1,9 @@
 import sys
 import pygame
 
+from scripts.utils import load_image
+from scripts.entity import EntityPhysics
+
 # pygame setup
 class Game:
     def __init__(self):
@@ -10,10 +13,14 @@ class Game:
         self.dt = 0
 
         pygame.display.set_caption('Starter Game')
-        self.player_pos = pygame.Vector2(self.screen.get_width() / 2, self.screen.get_height() / 2)
             
-        self.test_image = pygame.image.load("images/test2.png")
-        self.image_pos = [100, 200]
+        self.movement = [0, 0]
+
+        self.assets = {
+            'player': load_image('player.png')
+        }
+
+        self.player = EntityPhysics(self, 'player', (200,200))
 
     def run(self):
         while True:
@@ -25,23 +32,20 @@ class Game:
             # fill the screen with a color to wipe away anything from last frame
             self.screen.fill("purple")
 
-            self.screen.blit(self.test_image, self.image_pos)
+            self.player.update((self.movement[0], self.movement[1]))
+            self.movement = [0,0]
+            self.player.render(self.screen)
 
-            pygame.draw.circle(self.screen, "red", self.player_pos, 40)
+            if (self.player.pos[1] < 750):
+                self.movement[1] += 6
 
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_w]:
-                self.player_pos.y -= 300 * dt
-                self.image_pos[1] -= 300 * dt
-            if keys[pygame.K_s]:
-                self.player_pos.y += 300 * dt
-                self.image_pos[1] += 300 * dt
+            if keys[pygame.K_SPACE]:
+                self.movement[1] -= 20
             if keys[pygame.K_a]:
-                self.player_pos.x -= 300 * dt
-                self.image_pos[0] -= 300 * dt
+                self.movement[0] -= 7
             if keys[pygame.K_d]:
-                self.player_pos.x += 300 * dt
-                self.image_pos[0] += 300 * dt
+                self.movement[0] += 7
 
             # flip() the display to put your work on screen
             pygame.display.flip()
@@ -49,6 +53,6 @@ class Game:
             # limits FPS to 60
             # dt is delta time in seconds since last frame, used for framerate-
             # independent physics.
-            dt = self.clock.tick(60) / 1000
+            self.clock.tick(60)
 
 Game().run()
