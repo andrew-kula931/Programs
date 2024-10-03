@@ -2,7 +2,7 @@ import sys
 import pygame
 
 from scripts.utils import load_image
-from scripts.entity import EntityPhysics
+from scripts.player import PlayerPhysics
 
 # pygame setup
 class Game:
@@ -20,7 +20,7 @@ class Game:
             'player': load_image('player.png')
         }
 
-        self.player = EntityPhysics(self, 'player', (200,200))
+        self.player = PlayerPhysics(self, 'player', (200,200))
 
     def run(self):
         while True:
@@ -30,7 +30,7 @@ class Game:
                     pygame.quit()
 
             # fill the screen with a color to wipe away anything from last frame
-            self.screen.fill("purple")
+            self.screen.fill((110, 30, 30))
 
             self.player.update((self.movement[0], self.movement[1]))
             self.movement = [0,0]
