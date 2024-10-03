@@ -36,9 +36,6 @@ class Game:
             self.movement = [0,0]
             self.player.render(self.screen)
 
-            if (self.player.pos[1] < 750):
-                self.movement[1] += 6
-
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE]:
                 self.movement[1] -= 20
