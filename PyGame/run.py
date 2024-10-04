@@ -14,7 +14,8 @@ class Game:
 
         pygame.display.set_caption('Starter Game')
             
-        self.movement = [0, 0]
+        self.movement = [False, False]
+        self.velocity = [0, 0]
 
         self.assets = {
             'player': load_image('player.png')
@@ -24,25 +25,28 @@ class Game:
 
     def run(self):
         while True:
-            # pygame.QUIT event means the user clicked X to close your window
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-
             # fill the screen with a color to wipe away anything from last frame
             self.screen.fill((110, 30, 30))
 
-            self.player.update((self.movement[0], self.movement[1]))
-            self.movement = [0,0]
+            self.player.update((self.movement[1] - self.movement[0], 0))
             self.player.render(self.screen)
 
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_SPACE]:
-                self.movement[1] -= 20
-            if keys[pygame.K_a]:
-                self.movement[0] -= 7
-            if keys[pygame.K_d]:
-                self.movement[0] += 7
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self.player.velocity[1] = -18
+                    if event.key == pygame.K_a:
+                        self.movement[0] = True
+                    if event.key == pygame.K_d:
+                        self.movement[1] = True
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_a:
+                        self.movement[0] = False
+                    if event.key == pygame.K_d:
+                        self.movement[1] = False
 
             # flip() the display to put your work on screen
             pygame.display.flip()
