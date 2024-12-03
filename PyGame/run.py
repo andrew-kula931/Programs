@@ -8,7 +8,7 @@ from scripts.player import PlayerPhysics
 class Game:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((1600, 900))
+        self.screen = pygame.display.set_mode((320, 240))
         self.clock = pygame.time.Clock()
         self.dt = 0
 
