@@ -19,13 +19,13 @@ class Game:
         self.velocity = [0, 0]
 
         self.assets = {
-            'decor': load_images(''),
+            'ground': load_images(''),
             'player': load_image('player.png')
         }
 
-        self.player = PlayerPhysics(self, 'player', (200,200))
+        self.player = PlayerPhysics(self, 'player', (200,200), (128, 128))
 
-        self.tilemap = Tilemap(self, tile_size=16)
+        self.tilemap = Tilemap(self, tile_size=32)
 
     def run(self):
         while True:
@@ -34,7 +34,7 @@ class Game:
 
             self.tilemap.render(self.screen)
 
-            self.player.update((self.movement[1] - self.movement[0], 0))
+            self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
             self.player.render(self.screen)
 
             for event in pygame.event.get():
