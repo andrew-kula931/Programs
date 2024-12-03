@@ -1,8 +1,9 @@
 import sys
 import pygame
 
-from scripts.utils import load_image
+from scripts.utils import load_image, load_images
 from scripts.player import PlayerPhysics
+from scripts.tilemap import Tilemap
 
 # pygame setup
 class Game:
@@ -18,17 +19,22 @@ class Game:
         self.velocity = [0, 0]
 
         self.assets = {
+            'ground': load_images(''),
             'player': load_image('player.png')
         }
 
-        self.player = PlayerPhysics(self, 'player', (200,200))
+        self.player = PlayerPhysics(self, 'player', (200,200), (128, 128))
+
+        self.tilemap = Tilemap(self, tile_size=32)
 
     def run(self):
         while True:
             # fill the screen with a color to wipe away anything from last frame
             self.screen.fill((110, 30, 30))
 
-            self.player.update((self.movement[1] - self.movement[0], 0))
+            self.tilemap.render(self.screen)
+
+            self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
             self.player.render(self.screen)
 
             for event in pygame.event.get():
